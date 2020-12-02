@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 
 namespace QRConsole.SampleApp
 {
@@ -6,9 +6,7 @@ namespace QRConsole.SampleApp
     {
         static void Main(string[] args)
         {
-            var qr= new QRConsole();
-            qr.Output("aaaa");
-            Console.WriteLine("Hello World!");
+            QRConsole.Output("aaaa");
         }
     }
 }

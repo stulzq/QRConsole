@@ -9,4 +9,5 @@
     <ProjectReference Include="..\..\src\QRConsole\QRConsole.csproj" />
   </ItemGroup>
 
+
 </Project>

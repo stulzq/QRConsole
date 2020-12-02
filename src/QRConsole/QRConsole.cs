@@ -1,7 +1,7 @@
 ﻿using System;
-using QRCoder;
-using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using ZXing;
+using ZXing.QrCode;
 
 namespace QRConsole
 {
@@ -11,29 +11,55 @@ namespace QRConsole
         {
             const int threshold = 180;
 
-            using var qrGenerator = new QRCodeGenerator();
-            using var qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
-            var qrCode = new BitmapByteQRCode(qrCodeData); 
-            var bitmapBytes = qrCode.GetGraphic(1);
+            ZXing.ImageSharp.BarcodeWriter<Rgba32> writer = new ZXing.ImageSharp.BarcodeWriter<Rgba32>
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = new QrCodeEncodingOptions
+                {
+                    Width = 33,
+                    Height = 33,
+                    Margin = 1
 
-            var image = Image.Load<Rgba32>(bitmapBytes);
+                }
+            };
+            var image = writer.WriteAsImageSharp<Rgba32>(text);
+
+            int[,] points = new int[image.Width, image.Height];
+
             for (var i = 0; i < image.Width; i++)
             {
                 for (var j = 0; j < image.Height; j++)
                 {
                     //获取该像素点的RGB的颜色
-                    var color = image[i, j];
-                    if (color.B <= threshold)
+                    var color = image[i,j];
+                    if (color.B<=threshold)
                     {
-                        Console.BackgroundColor = ConsoleColor.White;
-                        Console.ForegroundColor = ConsoleColor.White;
+                        points[i, j] = 1;
+                    }
+                    else
+                    {
+                        points[i, j] = 0;
+                    }
+                }
+            }
+
+            
+            for (var i = 0; i < image.Width; i++)
+            {
+                for (var j = 0; j < image.Height; j++)
+                {
+                    //获取该像素点的RGB的颜色
+                    if (points[i, j] == 0)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Black;
+                        Console.ForegroundColor = ConsoleColor.Black;
                         Console.Write("  ");
                         Console.ResetColor();
                     }
                     else
                     {
-                        Console.BackgroundColor = ConsoleColor.Black;
-                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.White;
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.Write("  ");
                         Console.ResetColor();
                     }
