@@ -6,7 +6,7 @@ namespace QRConsole.SampleApp
     {
         static void Main(string[] args)
         {
-            QRConsole.Output("aaaa");
+            QRConsole.Output("Hello, World!");
         }
     }
 }

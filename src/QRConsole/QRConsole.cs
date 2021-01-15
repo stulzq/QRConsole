@@ -1,5 +1,6 @@
 ﻿using System;
 using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using ZXing;
 using ZXing.QrCode;
 
@@ -11,7 +12,7 @@ namespace QRConsole
         {
             const int threshold = 180;
 
-            ZXing.ImageSharp.BarcodeWriter<Rgba32> writer = new ZXing.ImageSharp.BarcodeWriter<Rgba32>
+            var writer = new ZXing.ImageSharp.BarcodeWriter<Rgba32>
             {
                 Format = BarcodeFormat.QR_CODE,
                 Options = new QrCodeEncodingOptions
@@ -49,7 +50,7 @@ namespace QRConsole
                 for (var j = 0; j < image.Height; j++)
                 {
                     //获取该像素点的RGB的颜色
-                    if (points[i, j] == 0)
+                    if (points[i, j] == 1)
                     {
                         Console.BackgroundColor = ConsoleColor.Black;
                         Console.ForegroundColor = ConsoleColor.Black;
