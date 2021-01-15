@@ -50,7 +50,7 @@ namespace QRConsole
                 for (var j = 0; j < image.Height; j++)
                 {
                     //获取该像素点的RGB的颜色
-                    if (points[i, j] == 1)
+                    if (points[i, j] == 0)
                     {
                         Console.BackgroundColor = ConsoleColor.Black;
                         Console.ForegroundColor = ConsoleColor.Black;
